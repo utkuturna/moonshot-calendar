@@ -16,6 +16,9 @@ const Filter: React.FC<any> = (props) => {
       const date = new Date(endDate.current.value);
       filters.push('window_start__lt=' + date.toISOString())
     }
+    if(status.current.value) {
+      filters.push('status=' + status.current.value);
+    }
     props.setFilters(filters)
   }
 
@@ -33,6 +36,7 @@ const Filter: React.FC<any> = (props) => {
         <div className="form-control">
           <label htmlFor="status">Status: </label><br />
           <select ref={status} id="status">
+            <option value="">Any</option>
             <option value="3">Successful</option>
             <option value="4">Failed</option>
           </select>

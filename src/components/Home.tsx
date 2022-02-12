@@ -3,6 +3,7 @@ import {getLaunches, getLaunchesWithUrl} from "../api/launch";
 import Loading from "./Loading";
 import Globe from "./Globe";
 import Filter from "./Filter";
+import Launch from "../models/Launch";
 
 const now = new Date(); // Get the time for now
 now.setMonth(now.getMonth() - 3); // Calculate three months ago
@@ -12,8 +13,8 @@ const INITIAL_FILTERS = [
 ]
 
 const Home: React.FC = () => {
-  const [filters, setFilters] = useState<any>(INITIAL_FILTERS);
-  const [launches, setLaunches] = useState<any>([]);
+  const [filters, setFilters] = useState<string[]>(INITIAL_FILTERS);
+  const [launches, setLaunches] = useState<Launch[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [noResult, setNoResult] = useState<boolean>(false);
 
@@ -28,7 +29,7 @@ const Home: React.FC = () => {
         setIsLoading(false);
       }
     }).catch( err => {
-      console.log(err);
+      alert(err);
     })
   }, []);
 
@@ -50,7 +51,7 @@ const Home: React.FC = () => {
         return [...state, ...res.results]
       })
     }).catch(err => {
-      console.log(err);
+      alert(err);
     })
   }, [fetchNextLaunches, filters]);
 
