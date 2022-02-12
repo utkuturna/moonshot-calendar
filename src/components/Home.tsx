@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {getLaunches, getLaunchesWithUrl} from "../api/launch";
+import Loading from "./Loading";
 
 const now = new Date(); // Get the time for now
 now.setMonth(now.getMonth() - 3); // Calculate three months ago
@@ -11,6 +12,7 @@ const INITIAL_FILTERS = [
 const Home: React.FC = () => {
   const [filters, setFilters] = useState<any>(INITIAL_FILTERS);
   const [launches, setLaunches] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchNextLaunches = useCallback((next: string) => { // Fetch next results with url
     getLaunchesWithUrl(next).then( res => {
@@ -19,6 +21,8 @@ const Home: React.FC = () => {
           return [...state, ...res.results]
         })
         fetchNextLaunches(res.next);
+      } else {
+        setIsLoading(false);
       }
     }).catch( err => {
       console.log(err);
@@ -26,6 +30,7 @@ const Home: React.FC = () => {
   }, []);
 
   const fetchLaunches = useCallback(() => { // Fetch initial values with filters
+    setIsLoading(true);
     getLaunches(filters).then(res => {
       console.log()
       if(res.next) {
@@ -48,11 +53,16 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      {launches.map((launch: any) => {
-        return (
-          <div key={launch.id}>{launch.name}</div>
-        )
-      })}
+      {
+        isLoading && <Loading />
+      }
+      {
+        !isLoading && launches.map((launch: any) => {
+          return (
+            <div key={launch.id}>{launch.name}</div>
+          )
+        })
+       }
     </div>
   )
 }
