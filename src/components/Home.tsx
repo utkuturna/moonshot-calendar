@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {getLaunches, getLaunchesWithUrl} from "../api/launch";
 import Loading from "./Loading";
+import Globe from "./Globe";
 
 const now = new Date(); // Get the time for now
 now.setMonth(now.getMonth() - 3); // Calculate three months ago
@@ -32,7 +33,6 @@ const Home: React.FC = () => {
   const fetchLaunches = useCallback(() => { // Fetch initial values with filters
     setIsLoading(true);
     getLaunches(filters).then(res => {
-      console.log()
       if(res.next) {
         fetchNextLaunches(res.next)
       }
@@ -57,11 +57,15 @@ const Home: React.FC = () => {
         isLoading && <Loading />
       }
       {
-        !isLoading && launches.map((launch: any) => {
-          return (
-            <div key={launch.id}>{launch.name}</div>
-          )
-        })
+        !isLoading &&
+        <>
+          {/*{launches.map((launch: any) => {
+            return (
+              <div key={launch.id}>{launch.name}</div>
+            )
+          })}*/}
+          <Globe launches={launches} />
+        </>
        }
     </div>
   )
