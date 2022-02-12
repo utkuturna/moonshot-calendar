@@ -24,25 +24,25 @@ const Filter: React.FC<any> = (props) => {
 
   return (
     <div className="filter-container">
-      <form onSubmit={handleOnSubmit}>
+      <form onSubmit={handleOnSubmit} data-testid="filter-form">
         <div className="form-control">
           <label htmlFor="start-date">Date From: </label><br />
-          <input ref={startDate} id="start-date" placeholder="Start Date" type="date" />
+          <input data-testid="start-date" ref={startDate} name="start-date" id="start-date" placeholder="Start Date" type="date" />
         </div>
         <div className="form-control">
           <label htmlFor="start-date">Date To: </label><br />
-          <input ref={endDate} id="start-date" placeholder="Start Date" type="date" />
+          <input ref={endDate} name="end-date" id="start-date" placeholder="Start Date" type="date" />
         </div>
         <div className="form-control">
           <label htmlFor="status">Status: </label><br />
-          <select ref={status} id="status">
+          <select ref={status} name="status" id="status">
             <option value="">Any</option>
             <option value="3">Successful</option>
             <option value="4">Failed</option>
           </select>
         </div>
         <div className="form-control">
-          <button type="submit">FILTER</button>
+          <button data-testid="submit" type="submit">FILTER</button>
         </div>
       </form>
     </div>
