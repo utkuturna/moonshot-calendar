@@ -1,0 +1,7 @@
+.filter-container {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    background-color: #fff;
+    padding: 20px;
+}
