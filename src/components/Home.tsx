@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {getLaunches, getLaunchesWithUrl} from "../api/launch";
 import Loading from "./Loading";
 import Globe from "./Globe";
+import Filter from "./Filter";
 
 const now = new Date(); // Get the time for now
 now.setMonth(now.getMonth() - 3); // Calculate three months ago
@@ -65,6 +66,7 @@ const Home: React.FC = () => {
             )
           })}*/}
           <Globe launches={launches} />
+          <Filter />
         </>
        }
     </div>
