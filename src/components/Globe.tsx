@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
-import ReactGlobe, {Marker, Options} from 'react-globe';
+import ReactGlobe, {Marker} from 'react-globe';
 
 const options: any = {
   cameraRotateSpeed: 0.5,

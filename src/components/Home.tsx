@@ -15,6 +15,7 @@ const Home: React.FC = () => {
   const [filters, setFilters] = useState<any>(INITIAL_FILTERS);
   const [launches, setLaunches] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [noResult, setNoResult] = useState<boolean>(false);
 
   const fetchNextLaunches = useCallback((next: string) => { // Fetch next results with url
     getLaunchesWithUrl(next).then( res => {
@@ -35,7 +36,15 @@ const Home: React.FC = () => {
     setIsLoading(true);
     getLaunches(filters).then(res => {
       if(res.next) {
-        fetchNextLaunches(res.next)
+        setNoResult(false);
+        fetchNextLaunches(res.next);
+      } else {
+        setIsLoading(false);
+        setNoResult(false);
+      }
+      if(!res.count) {
+        setNoResult(true);
+        setIsLoading(false);
       }
       setLaunches((state: any) => {
         return [...state, ...res.results]
@@ -45,7 +54,11 @@ const Home: React.FC = () => {
     })
   }, [fetchNextLaunches, filters]);
 
-
+  const handleSetFilters = (filters: any): void => {
+    setFilters((state: any) => {
+      return [...filters];
+    })
+  }
 
   useEffect(() => {
     setLaunches([]);
@@ -58,6 +71,13 @@ const Home: React.FC = () => {
         isLoading && <Loading />
       }
       {
+        !isLoading && noResult &&
+        <>
+          <p>No result for this filter try another</p>
+          <Filter setFilters={(filters: any) => handleSetFilters(filters)} />
+        </>
+      }
+      {
         !isLoading &&
         <>
           {/*{launches.map((launch: any) => {
@@ -66,7 +86,7 @@ const Home: React.FC = () => {
             )
           })}*/}
           <Globe launches={launches} />
-          <Filter />
+          <Filter setFilters={(filters: any) => handleSetFilters(filters)} />
         </>
        }
     </div>
